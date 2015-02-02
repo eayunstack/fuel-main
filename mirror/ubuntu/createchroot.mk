@@ -8,10 +8,6 @@ define insert_ubuntu_version
 	$(empty_line)
 endef
 
-ifeq (,$(findstring clean,$(MAKECMDGOALS)))
-include $(BUILD_DIR)/ubuntu_installer_kernel_version.mk
-endif
-
 $(BUILD_DIR)/mirror/ubuntu/createchroot.done:
 	mkdir -p $(LOCAL_MIRROR_UBUNTU_OS_BASEURL)/chroot
 	mkdir -p $(LOCAL_MIRROR_UBUNTU_OS_BASEURL)/chroot/proc
