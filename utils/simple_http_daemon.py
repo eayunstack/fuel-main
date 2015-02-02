@@ -18,7 +18,7 @@ import sys
 import os
 import time
 import daemon
-import daemon.pidlockfile
+import lockfile.pidlockfile
 import BaseHTTPServer
 from SimpleHTTPServer import SimpleHTTPRequestHandler
 
@@ -47,7 +47,7 @@ class SimpleHTTPDaemon:
         context = daemon.DaemonContext(
             working_directory=os.getcwd(),
             umask=0o002,
-            pidfile=daemon.pidlockfile.PIDLockFile(self.pid_file)
+            pidfile=lockfile.pidlockfile.PIDLockFile(self.pid_file)
         )
         with context:
             self.run_http_server()
