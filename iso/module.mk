@@ -50,8 +50,7 @@ $(BUILD_DIR)/iso/isoroot-centos.done: \
 		$(BUILD_DIR)/iso/isoroot-dotfiles.done
 	mkdir -p $(ISOROOT)
 	tar xf $(CENTOS_DEP_FILE) -C $(ISOROOT) --xform s:^centos-repo/::
-	createrepo -g $(ISOROOT)/comps.xml \
-		-u media://`head -1 $(ISOROOT)/.discinfo` $(ISOROOT)
+	createrepo -g $(ISOROOT)/comps.xml $(ISOROOT)
 	$(ACTION.TOUCH)
 else
 $(BUILD_DIR)/iso/isoroot-centos.done: \
@@ -63,8 +62,7 @@ $(BUILD_DIR)/iso/isoroot-centos.done: \
 	mkdir -p $(ISOROOT)
 	rsync -rp $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/ $(ISOROOT)
 	rsync -rp $(LOCAL_MIRROR)/centos-packages.changelog $(ISOROOT)
-	createrepo -g $(ISOROOT)/comps.xml \
-		-u media://`head -1 $(ISOROOT)/.discinfo` $(ISOROOT)
+	createrepo -g $(ISOROOT)/comps.xml $(ISOROOT)
 	rpm -qi -p $(ISOROOT)/Packages/*.rpm | $(SOURCE_DIR)/iso/pkg-versions.awk > $(ISOROOT)/centos-versions.yaml
 	$(ACTION.TOUCH)
 endif
