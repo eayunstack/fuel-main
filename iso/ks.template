@@ -186,7 +186,7 @@ dd if=/dev/zero of=/dev/${tgtdrive} bs=10M count=10
 sleep 3
 hdparm -z /dev/${tgtdrive}
 parted -s /dev/${tgtdrive} mklabel gpt
-parted -a none -s /dev/${tgtdrive} unit MiB mkpart primary 0 24
+parted -a none -s /dev/${tgtdrive} unit s mkpart primary 34 49151
 parted -s /dev/${tgtdrive} set 1 bios_grub on
 parted -a none -s /dev/${tgtdrive} unit MiB mkpart primary fat16 24 224
 parted -s /dev/${tgtdrive} set 2 boot on
