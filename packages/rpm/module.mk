@@ -35,7 +35,7 @@ $(BUILD_DIR)/packages/rpm/$1.done: \
 	sudo mkdir -p $$(SANDBOX)/tmp/SOURCES
 	sudo cp -r $(BUILD_DIR)/packages/sources/$1/* $$(SANDBOX)/tmp/SOURCES
 	sudo cp $(SOURCE_DIR)/packages/rpm/specs/$1.spec $$(SANDBOX)/tmp
-	sudo chroot $$(SANDBOX) rpmbuild --nodeps -vv --define "_topdir /tmp" -ba /tmp/$1.spec
+	sudo env "PATH=$${PATH}" chroot $$(SANDBOX) rpmbuild --nodeps -vv --define "_topdir /tmp" -ba /tmp/$1.spec
 	cp $$(SANDBOX)/tmp/RPMS/*/$1-*.rpm $(BUILD_DIR)/packages/rpm/RPMS/x86_64
 	sudo sh -c "$$$${SANDBOX_DOWN}"
 	$$(ACTION.TOUCH)
