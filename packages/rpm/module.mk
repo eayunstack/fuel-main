@@ -50,7 +50,6 @@ $(eval $(call build_rpm,fencing-agent))
 $(eval $(call build_rpm,fuel-agent))
 $(eval $(call build_rpm,fuelmenu))
 $(eval $(call build_rpm,nailgun-mcagents))
-$(eval $(call build_rpm,ruby21-nailgun-mcagents))
 $(eval $(call build_rpm,nailgun-net-check))
 $(eval $(call build_rpm,python-tasklib))
 $(eval $(call build_rpm,nailgun))
@@ -59,7 +58,7 @@ $(eval $(call build_rpm,fuel-ostf))
 $(eval $(call build_rpm,nailgun-agent))
 $(eval $(call build_rpm,nailgun-redhat-license))
 $(eval $(call build_rpm,python-fuelclient))
-$(eval $(call build_rpm,ruby21-rubygem-astute))
+$(eval $(call build_rpm,rubygem-astute))
 
 $(BUILD_DIR)/packages/rpm/repo.done:
 	find $(BUILD_DIR)/packages/rpm/RPMS -name '*.rpm' -exec cp -u {} $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/Packages \;
