@@ -59,15 +59,6 @@ $(BUILD_DIR)/mirror/centos/yum.done: \
 	# Yumdownloader/repotrack workaround number one:
 	# i686 packages are downloaded by mistake. Remove them
 	rm -rf $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/Packages/*.i686.rpm
-	# Yumdownloader workaround number two:
-	# yumdownloader should fail if some packages are missed
-	test `grep "No Match" $(BUILD_DIR)/mirror/centos/yumdownloader.log | wc -l` = 0
-	# Yumdownloader workaround number three:
-	# We have exactly four downloading conflicts: django, mysql, kernel-headers and kernel-lt-firmware
-	test `grep "conflicts with" $(BUILD_DIR)/mirror/centos/yumdownloader.log | grep -v '^[[:space:]]' | wc -l` -le 11
-	# Yumdownloader workaround number four:
-	# yumdownloader should fail if some errors appears
-	test `grep "Errno" $(BUILD_DIR)/mirror/centos/yumdownloader.log | wc -l` = 0
 	$(ACTION.TOUCH)
 
 show-yum-urls-centos: \

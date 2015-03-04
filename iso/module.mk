@@ -147,8 +147,8 @@ $(BUILD_DIR)/iso/isoroot-files.done: \
 		$(ISOROOT)/puppet-slave.tgz
 	$(ACTION.TOUCH)
 
-$(ISOROOT)/.discinfo: $(SOURCE_DIR)/iso/.discinfo ; $(ACTION.COPY)
-$(ISOROOT)/.treeinfo: $(SOURCE_DIR)/iso/.treeinfo ; $(ACTION.COPY)
+$(ISOROOT)/.discinfo: $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/.discinfo ; $(ACTION.COPY)
+$(ISOROOT)/.treeinfo: $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/.treeinfo ; $(ACTION.COPY)
 $(ISOROOT)/isolinux/isolinux.cfg: $(SOURCE_DIR)/iso/isolinux/isolinux.cfg ; $(ACTION.COPY)
 $(ISOROOT)/isolinux/splash.jpg: $(call depv,FEATURE_GROUPS)
 ifeq ($(filter mirantis,$(FEATURE_GROUPS)),mirantis)
