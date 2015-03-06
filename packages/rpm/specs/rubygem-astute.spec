@@ -20,6 +20,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-root
 Requires: ruby
 Requires: rubygem-activesupport
 Requires: mcollective-client
+Requires: rubygem-mcollective-client
 Requires: rubygem-symboltable
 Requires: rubygem-rest-client
 Requires: rubygem-popen4
