@@ -6,5 +6,10 @@ rm -f /var/lib/rpm/__db.*
 rpm --rebuilddb
 
 puppet apply -v /etc/puppet/modules/nailgun/examples/ostf-only.pp
-service supervisord stop
+
+#Workaround to pass python packages version dependencies
+sed -i 's/gevent==0.13.8/gevent>=0.13.8/' /usr/lib/python2.7/site-packages/fuel_ostf-*.egg-info/requires.txt
+
+pgrep supervisord >/dev/null && /usr/bin/supervisorctl shutdown
+while pgrep supervisord >/dev/null; do sleep 1; done
 /usr/bin/supervisord -n

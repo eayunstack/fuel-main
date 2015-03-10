@@ -5,4 +5,5 @@
 rm -f /var/lib/rpm/__db.*
 rpm --rebuilddb
 
+pkill xinetd || echo "no xinetd process"
 /usr/sbin/xinetd -dontfork

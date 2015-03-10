@@ -12,15 +12,15 @@ rm -f /etc/cobbler/authorized_keys
 
 # Make sure services are not running (no pids, etc), puppet will
 # configure and bring them up.
-/etc/init.d/httpd stop
-/etc/init.d/xinetd stop
+pkill httpd
+pkill xinetd
 
 # Run puppet to apply custom config
 puppet apply -v /etc/puppet/modules/nailgun/examples/cobbler-only.pp
 # Stop cobbler and dnsmasq
-/etc/init.d/dnsmasq stop
-/etc/init.d/cobblerd stop
+pkill dnsmasq
+pkill cobblerd
 
 # Running services
-/etc/init.d/dnsmasq restart
+/usr/sbin/dnsmasq
 cobblerd -F
