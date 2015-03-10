@@ -15,7 +15,7 @@ if [[ $exitcode != 0 && $exitcode != 2 ]]; then
   exit $exitcode
 fi
 
-service rabbitmq-server stop
+su rabbitmq -s /bin/sh -c "cd /var/lib/rabbitmq; export HOME=/var/lib/rabbitmq; /usr/lib/rabbitmq/bin/rabbitmqctl stop"
 #Just in case stopping service fails
 pkill -u rabbitmq
 
