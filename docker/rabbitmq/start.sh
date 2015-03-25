@@ -8,8 +8,11 @@ rpm --rebuilddb
 mkdir -p /var/log/rabbitmq
 chown -R rabbitmq:rabbitmq /var/log/rabbitmq
 
+#Workaround for facter to detect docker
+grep -q '/system.slice/dock' /proc/1/cgroup && sed -i 's/\/docker\//\/system\.slice\/docker/' /usr/share/ruby/vendor_ruby/facter/util/virtual.rb
+
 exitcode=0
-puppet apply --detailed-exitcodes -v /etc/puppet/modules/nailgun/examples/rabbitmq-only.pp || exitcode=$?
+puppet apply --detailed-exitcodes -d -v /etc/puppet/modules/nailgun/examples/rabbitmq-only.pp || exitcode=$?
 if [[ $exitcode != 0 && $exitcode != 2 ]]; then
   echo Puppet apply failed with exit code: $exitcode
   exit $exitcode
