@@ -514,7 +514,7 @@ EOF
 
 cat >> '/etc/rc.local' << EOF
 first=yes
-for ip in \$(ip -o -4 addr | grep "eth." | awk '{print \$4 }' | cut -d/ -f1); do
+for ip in \$(ip -o -4 addr | grep -E "eth.|en." | awk '{print \$4 }' | cut -d/ -f1); do
 if [ "\$first" = "yes" ]; then
   ipstr="Fuel UI is available on: http://\$ip:8000"
   first=no
@@ -522,6 +522,7 @@ else
   ipstr=\$(printf "%s\n%25s%s" "\$ipstr" " " "http://\$ip:8000")
 fi
 done
+chmod +x /etc/rc.d/rc.local
 tmpissue=\$(mktemp)
 while read -r line; do
   if [[ "\$line" =~ "Fuel UI is available on" ]]; then
