@@ -15,6 +15,9 @@ rm -f /etc/cobbler/authorized_keys
 pkill httpd
 pkill xinetd
 
+#Workaround for facter to detect docker
+grep -q '/system.slice/dock' /proc/1/cgroup && sed -i 's/\/docker\//\/system\.slice\/docker/' /usr/share/ruby/vendor_ruby/facter/util/virtual.rb
+
 # Run puppet to apply custom config
 puppet apply -v /etc/puppet/modules/nailgun/examples/cobbler-only.pp
 # Stop cobbler and dnsmasq

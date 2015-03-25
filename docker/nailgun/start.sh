@@ -16,6 +16,9 @@ sed -i 's/kombu==3.0.16/kombu/' /usr/lib/python2.7/site-packages/nailgun-*.egg-i
 sed -i 's/urllib3==1.7/urllib3>=1.7/' /usr/lib/python2.7/site-packages/nailgun-*.egg-info/requires.txt
 sed -i 's/amqp>=1.0.13,<1.1.0/amqp/' /usr/lib/python2.7/site-packages/kombu-*.egg-info/requires.txt
 
+#Workaround for facter to detect docker
+grep -q '/system.slice/dock' /proc/1/cgroup && sed -i 's/\/docker\//\/system\.slice\/docker/' /usr/share/ruby/vendor_ruby/facter/util/virtual.rb
+
 #Workaround so nailgun can see version.yaml
 ln -sf /etc/fuel/version.yaml /etc/nailgun/version.yaml
 #Run puppet to apply custom config

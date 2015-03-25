@@ -5,6 +5,9 @@
 rm -f /var/lib/rpm/__db.*
 rpm --rebuilddb
 
+#Workaround for facter to detect docker
+grep -q '/system.slice/dock' /proc/1/cgroup && sed -i 's/\/docker\//\/system\.slice\/docker/' /usr/share/ruby/vendor_ruby/facter/util/virtual.rb
+
 puppet apply -v /etc/puppet/modules/nailgun/examples/postgres-only.pp
 
 osmajrel=$(facter operatingsystemmajrelease)
