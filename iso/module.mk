@@ -140,6 +140,8 @@ $(BUILD_DIR)/iso/isoroot-files.done: \
 		$(ISOROOT)/ks.cfg \
 		$(ISOROOT)/bootstrap_admin_node.sh \
 		$(ISOROOT)/bootstrap_admin_node.conf \
+		$(ISOROOT)/bootstrap_admin_node \
+		$(ISOROOT)/bootstrap_admin_node.service \
 		$(ISOROOT)/send2syslog.py \
 		$(ISOROOT)/version.yaml \
 		$(ISOROOT)/openstack_version \
@@ -166,6 +168,8 @@ else
 $(ISOROOT)/bootstrap_admin_node.sh: $(SOURCE_DIR)/iso/bootstrap_admin_node.sh ; $(ACTION.COPY)
 endif
 $(ISOROOT)/bootstrap_admin_node.conf: $(SOURCE_DIR)/iso/bootstrap_admin_node.conf ; $(ACTION.COPY)
+$(ISOROOT)/bootstrap_admin_node: $(SOURCE_DIR)/iso/bootstrap_admin_node ; $(ACTION.COPY)
+$(ISOROOT)/bootstrap_admin_node.service: $(SOURCE_DIR)/iso/bootstrap_admin_node.service ; $(ACTION.COPY)
 $(ISOROOT)/send2syslog.py: $(BUILD_DIR)/repos/nailgun/bin/send2syslog.py ; $(ACTION.COPY)
 $(BUILD_DIR)/repos/nailgun/bin/send2syslog.py: $(BUILD_DIR)/repos/nailgun.done
 

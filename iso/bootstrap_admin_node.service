@@ -1,0 +1,11 @@
+[Unit]
+Description=Fuel Bootstrap Script
+After=rc-local.service
+Before=getty.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/bootstrap_admin_node
+
+[Install]
+WantedBy=multi-user.target

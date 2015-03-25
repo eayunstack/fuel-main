@@ -464,8 +464,12 @@ sed -i -e "/^\s*GSSAPICleanupCredentials yes/d" -e "/^\s*GSSAPIAuthentication ye
 # Copying bootstrap_admin_node.sh, chmod it and
 # adding /etc/init/bootstrap_admin_node.conf
 cp ${SOURCE}/bootstrap_admin_node.sh /usr/local/sbin/bootstrap_admin_node.sh
+cp ${SOURCE}/bootstrap_admin_node /usr/sbin/bootstrap_admin_node
 chmod 0777 /usr/local/sbin/bootstrap_admin_node.sh
+chmod 0777 /usr/sbin/bootstrap_admin_node
 cp ${SOURCE}/bootstrap_admin_node.conf /etc/init/bootstrap_admin_node.conf
+cp ${SOURCE}/bootstrap_admin_node.service /etc/systemd/system/bootstrap_admin_node.service
+systemctl enable bootstrap_admin_node
 echo "ENABLED=1" > /etc/sysconfig/bootstrap_admin_node
 
 # Copying version.yaml file. It contains COMMIT_SHA of last commit.
