@@ -20,8 +20,10 @@ if [ -f /root/.showfuelmenu ]; then
   . /root/.showfuelmenu
 fi
 
+activeiface=$(facter interfaces | sed 's/,/\n/g' | grep -E '^eth|^en' | head -1)
+
 echo -n "Applying default Fuel settings..."
-fuelmenu --save-only --iface=eth0
+fuelmenu --save-only --iface="$activeiface"
 echo "Done!"
 
 if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
@@ -38,7 +40,7 @@ if [[ "$showmenu" == "yes" || "$showmenu" == "YES" ]]; then
     case "$key" in
       $'\e')  echo "Skipping Fuel Setup.."
               echo -n "Applying default Fuel setings..."
-              fuelmenu --save-only --iface=eth0
+              fuelmenu --save-only --iface="$activeiface"
               echo "Done!"
               ;;
       *)      echo -e "\nEntering Fuel Setup..."
