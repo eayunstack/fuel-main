@@ -50,8 +50,7 @@ $(BUILD_DIR)/iso/isoroot-centos.done: \
 		$(BUILD_DIR)/iso/isoroot-dotfiles.done
 	mkdir -p $(ISOROOT)
 	tar xf $(CENTOS_DEP_FILE) -C $(ISOROOT) --xform s:^centos-repo/::
-	createrepo -g $(ISOROOT)/comps.xml \
-		-u media://`head -1 $(ISOROOT)/.discinfo` $(ISOROOT)
+	createrepo -g $(ISOROOT)/comps.xml $(ISOROOT)
 	$(ACTION.TOUCH)
 else
 $(BUILD_DIR)/iso/isoroot-centos.done: \
@@ -63,8 +62,7 @@ $(BUILD_DIR)/iso/isoroot-centos.done: \
 	mkdir -p $(ISOROOT)
 	rsync -rp $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/ $(ISOROOT)
 	rsync -rp $(LOCAL_MIRROR)/centos-packages.changelog $(ISOROOT)
-	createrepo -g $(ISOROOT)/comps.xml \
-		-u media://`head -1 $(ISOROOT)/.discinfo` $(ISOROOT)
+	createrepo -g $(ISOROOT)/comps.xml $(ISOROOT)
 	rpm -qi -p $(ISOROOT)/Packages/*.rpm | $(SOURCE_DIR)/iso/pkg-versions.awk > $(ISOROOT)/centos-versions.yaml
 	$(ACTION.TOUCH)
 endif
@@ -146,12 +144,11 @@ $(BUILD_DIR)/iso/isoroot-files.done: \
 		$(ISOROOT)/version.yaml \
 		$(ISOROOT)/openstack_version \
 		$(ISOROOT)/centos-versions.yaml \
-		$(ISOROOT)/ubuntu-versions.yaml \
 		$(ISOROOT)/puppet-slave.tgz
 	$(ACTION.TOUCH)
 
-$(ISOROOT)/.discinfo: $(SOURCE_DIR)/iso/.discinfo ; $(ACTION.COPY)
-$(ISOROOT)/.treeinfo: $(SOURCE_DIR)/iso/.treeinfo ; $(ACTION.COPY)
+$(ISOROOT)/.discinfo: $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/.discinfo ; $(ACTION.COPY)
+$(ISOROOT)/.treeinfo: $(LOCAL_MIRROR_CENTOS_OS_BASEURL)/.treeinfo ; $(ACTION.COPY)
 $(ISOROOT)/isolinux/isolinux.cfg: $(SOURCE_DIR)/iso/isolinux/isolinux.cfg ; $(ACTION.COPY)
 $(ISOROOT)/isolinux/splash.jpg: $(call depv,FEATURE_GROUPS)
 ifeq ($(filter mirantis,$(FEATURE_GROUPS)),mirantis)
@@ -209,7 +206,6 @@ $(ISOROOT)/bootstrap/bootstrap.rsa: $(SOURCE_DIR)/bootstrap/ssh/id_rsa ;
 $(BUILD_DIR)/iso/isoroot-image.done: $(BUILD_DIR)/image/build.done
 	mkdir -p $(ISOROOT)/targetimages
 	tar xf $(ARTS_DIR)/$(TARGET_CENTOS_IMG_ART_NAME) -C $(ISOROOT)/targetimages
-	tar xf $(ARTS_DIR)/$(TARGET_UBUNTU_IMG_ART_NAME) -C $(ISOROOT)/targetimages
 	$(ACTION.TOUCH)
 
 ########################
@@ -218,7 +214,6 @@ $(BUILD_DIR)/iso/isoroot-image.done: $(BUILD_DIR)/image/build.done
 
 $(BUILD_DIR)/iso/isoroot.done: \
 		$(BUILD_DIR)/iso/isoroot-centos.done \
-		$(BUILD_DIR)/iso/isoroot-ubuntu.done \
 		$(BUILD_DIR)/iso/isoroot-files.done \
 		$(BUILD_DIR)/iso/isoroot-bootstrap.done \
 		$(BUILD_DIR)/iso/isoroot-image.done

@@ -23,7 +23,7 @@ reboot
 # System services
 services --disabled="avahi-daemon,iscsi,iscsid,firstboot,kdump" --enabled="network,sshd,rsyslog,tuned"
 # System timezone
-timezone --isUtc America/New_York
+timezone --isUtc Asia/Shanghai
 # Network information
 network  --bootproto=dhcp --device=eth0 --onboot=on
 # System bootloader configuration
@@ -33,7 +33,7 @@ zerombr
 # Partition clearing information
 clearpart --all
 # Disk partitioning information
-part / --fstype="ext4" --size=1024
+part / --fstype="ext4" --size=2048
 
 %post
 rm /etc/yum.repos.d/*
@@ -46,6 +46,7 @@ EOF
 rpm -e --nodeps ruby
 yum install --exclude=ruby-2.1.1* -y ruby rubygems ruby-augeas ruby-devel rubygem-openstack rubygem-netaddr puppet mcollective nailgun-agent nailgun-mcagents
 rm /etc/yum.repos.d/*
+%end
 
 
 %post
@@ -124,12 +125,7 @@ rm -rf /var/log/anaconda*
 %packages --nobase --ignoremissing
 @Core
 authconfig
-bfa-firmware
-ql2100-firmware
-ql2200-firmware
-ql23xx-firmware
-ql2400-firmware
-ql2500-firmware
+linux-firmware
 bind-utils
 cronie
 crontabs
@@ -137,8 +133,7 @@ curl
 gcc
 gdisk
 kernel
-kernel-firmware
-grub
+grub2
 dracut
 make
 mlocate
