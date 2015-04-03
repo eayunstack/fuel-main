@@ -134,7 +134,7 @@ $(BUILD_DIR)/bootstrap/customize-initram-root.done: \
 	sudo cp -r $(BUILD_DIR)/repos/nailgun/bin/send2syslog.py $(INITRAMROOT)/usr/bin
 
 	# Enabling pre-init boot interface discovery
-	sudo chroot $(INITRAMROOT) chkconfig setup-bootdev on
+	sudo chroot $(INITRAMROOT) systemctl enable setup-bootdev.service
 
 	# Setting root password into r00tme
 	sudo sed -i -e '/^root/c\root:$$6$$oC7haQNQ$$LtVf6AI.QKn9Jb89r83PtQN9fBqpHT9bAFLzy.YVxTLiFgsoqlPY3awKvbuSgtxYHx4RUcpUqMotp.WZ0Hwoj.:15441:0:99999:7:::' $(INITRAMROOT)/etc/shadow

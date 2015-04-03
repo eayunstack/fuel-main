@@ -50,43 +50,35 @@ set_interfaces_up_when_booted() {
     done
 }
 
-# See how we were called.
-case "$1" in
-  start)
-    echo -n "Configure all interfaces as active..."
-    set_interfaces_up_when_booted
-    echo "ok."
-    echo -n "Obtain boot interface name..."
-    dev=$(get_bootdev)
-    rc=$?
+echo -n "Configure all interfaces as active..."
+set_interfaces_up_when_booted
+echo "ok."
+echo -n "Obtain boot interface name..."
+dev=$(get_bootdev)
+rc=$?
 
-    if [ $rc -ne 0 ]; then
+if [ $rc -ne 0 ]; then
+    echo "failed."
+    echo -en "Obtain all eth interfaces..."
+    dev=$(get_alldevs)
+    if [ -z "$dev" ]; then
+        rc=1
         echo "failed."
-        echo -en "Obtain all eth interfaces..."
-        dev=$(get_alldevs)
-        if [ -z "$dev" ]; then
-            rc=1
-            echo "failed."
-        else
-            rc=0
-            dev_str=$(echo "$dev"|tr "\n" " "|sed 's/ *$//')
-            echo "ok ($dev_str)."
-        fi
     else
-        echo "ok ($dev)."
+        rc=0
+        dev_str=$(echo "$dev"|tr "\n" " "|sed 's/ *$//')
+        echo "ok ($dev_str)."
     fi
+else
+    echo "ok ($dev)."
+fi
 
-    if [ $rc -eq 0 ]; then
-        for name in $dev; do
-            content="DEVICE=$name\nBOOTPROTO=dhcp\nONBOOT=yes\nLINKDELAY=30"
-            echo -e "$content" > "./ifcfg-$name"
-        done
-    fi
-    action $"Update network interfaces settings: " [ $rc -eq 0 ]
-    ;;
-  *)
-    rc=0
-    ;;
-esac
+if [ $rc -eq 0 ]; then
+    for name in $dev; do
+        content="DEVICE=$name\nBOOTPROTO=dhcp\nONBOOT=yes\nLINKDELAY=30"
+        echo -e "$content" > "./ifcfg-$name"
+    done
+fi
+action $"Update network interfaces settings: " [ $rc -eq 0 ]
 
 exit $rc
