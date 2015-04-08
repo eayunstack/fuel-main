@@ -2,10 +2,10 @@
 #
 # Version     0.1
 
-FROM fuel/centos
+FROM eayunstack-fuel
 MAINTAINER Matthew Mosesohn mmosesohn@mirantis.com
 
-RUN rm -rf /etc/yum.repos.d/*; echo -e "[nailgun]\nname=Nailgun Local Repo\nbaseurl=http://$(route -n | awk '/^0.0.0.0/ { print $2 }'):_PORT_/os/x86_64/\ngpgcheck=0" > /etc/yum.repos.d/nailgun.repo;yum clean all;yum --quiet install -y ruby21-puppet xinetd rsync logrotate
+RUN rm -rf /etc/yum.repos.d/*; echo -e "[nailgun]\nname=Nailgun Local Repo\nbaseurl=http://$(ip route show to exact 0.0.0.0/0 | awk '{ print $3 }'):_PORT_/os/x86_64/\ngpgcheck=0" > /etc/yum.repos.d/nailgun.repo;yum clean all;yum --quiet install -y xinetd rsync logrotate
 
 ADD etc /etc
 ADD start.sh /usr/local/bin/start.sh

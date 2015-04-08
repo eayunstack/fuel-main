@@ -20,6 +20,7 @@ else
 # Lrzip all containers into single archive
 $(BUILD_DIR)/docker/build.done: \
 		$(BUILD_DIR)/docker/busybox.done \
+		$(BUILD_DIR)/docker/nsenter.done \
 		$(BUILD_DIR)/docker/sources.done
 	(cd $(BUILD_DIR)/docker/containers && tar cf $(BUILD_DIR)/docker/fuel-images.tar *.tar)
 	lrzip -L2 -U -D -f $(BUILD_DIR)/docker/fuel-images.tar -o $(BUILD_DIR)/docker/$(DOCKER_ART_NAME)
@@ -42,16 +43,24 @@ $(BUILD_DIR)/docker/$1.done: \
 	mkdir -p "$(BUILD_DIR)/docker/containers"
 	rm -rf $(BUILD_DIR)/docker/$1
 	cp -a $(SOURCE_DIR)/docker/$1 $(BUILD_DIR)/docker/$1
+ifdef YUM_REPO_DOCKERBUILD
+	-sed -e "s/baseurl=http:\/\/.*_PORT_\/os\/x86_64\//baseurl=$(subst /,\/,$(YUM_REPO_DOCKERBUILD))/" -i.bak $(BUILD_DIR)/docker/$1/Dockerfile
+else
 	sed -e "s/_PORT_/$(RANDOM_PORT)/" -i $(BUILD_DIR)/docker/$1/Dockerfile
+endif
 	mkdir -p $(BUILD_DIR)/docker/$1/etc/puppet/modules/
 	mkdir -p $(BUILD_DIR)/docker/$1/etc/fuel
 	cp $(BUILD_DIR)/iso/isoroot/version.yaml $(BUILD_DIR)/docker/$1/etc/fuel/version.yaml
 	sed -e 's/production:.*/production: "docker-build"/' -i $(BUILD_DIR)/docker/$1/etc/fuel/version.yaml
 	cp $(SOURCE_DIR)/docker/docker-astute.yaml $(BUILD_DIR)/docker/$1/etc/fuel/astute.yaml
 	rsync -a $(BUILD_DIR)/repos/fuellib/deployment/puppet/* $(BUILD_DIR)/docker/$1/etc/puppet/modules/
-	sudo docker build --force-rm -t fuel/$1_$(PRODUCT_VERSION) $(BUILD_DIR)/docker/$1
+	sudo docker build -t fuel/$1_$(PRODUCT_VERSION) $(BUILD_DIR)/docker/$1
 	sudo docker save fuel/$1_$(PRODUCT_VERSION) > $(BUILD_DIR)/docker/containers/$1.tar
 	kill `cat /tmp/simple_http_daemon_$(RANDOM_PORT).pid`
+ifdef YUM_REPO_DOCKERBUILD
+	-[ -e $(BUILD_DIR)/docker/$1/Dockerfile.bak ] && cp $(BUILD_DIR)/docker/$1/Dockerfile.bak $(BUILD_DIR)/docker/$1/Dockerfile
+	-rm -f $(BUILD_DIR)/docker/$1/Dockerfile.bak
+endif
 	$$(ACTION.TOUCH)
 endef
 
@@ -64,6 +73,12 @@ $(BUILD_DIR)/docker/busybox.done: \
 		$(BUILD_DIR)/docker/base-images.done
 	mkdir -p "$(BUILD_DIR)/docker/containers"
 	sudo docker save busybox > $(BUILD_DIR)/docker/containers/busybox.tar
+	$(ACTION.TOUCH)
+
+$(BUILD_DIR)/docker/nsenter.done: \
+		$(BUILD_DIR)/docker/base-images.done
+	mkdir -p "$(BUILD_DIR)/docker/containers"
+	sudo docker save jpetazzo/nsenter > $(BUILD_DIR)/docker/containers/nsenter.tar
 	$(ACTION.TOUCH)
 
 $(BUILD_DIR)/docker/sources.done: \
