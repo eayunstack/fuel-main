@@ -1,11 +1,21 @@
 [Unit]
 Description=Fuel Bootstrap Script
-After=rc-local.service
-Before=getty.target
+After=plymouth-quit-wait.service systemd-vconsole-setup.service
+Before=getty@tty1.service getty@ttyUSB0.service
+Before=serial-getty@ttyS0.service serial-getty@ttyO0.service serial-getty@ttyO2.service
+Before=serial-getty@ttyAMA0.service serial-getty@ttymxc0.service serial-getty@ttymxc3.service
+Conflicts=plymouth-quit-wait.service
 
 [Service]
 Type=oneshot
+ExecStartPre=-/bin/plymouth quit
+ExecStartPre=/bin/kill -55 1
 ExecStart=/usr/sbin/bootstrap_admin_node
+ExecStartPost=/bin/kill -54 1
+RemainAfterExit=yes
+StandardInput=tty
+StandardOutput=inherit
+StandardError=inherit
 
 [Install]
 WantedBy=multi-user.target
