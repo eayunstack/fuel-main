@@ -1,0 +1,10 @@
+[Unit]
+Description=Fuel Setup Network Interface Script
+Before=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/setup-bootdev
+
+[Install]
+WantedBy=multi-user.target
