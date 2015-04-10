@@ -362,6 +362,10 @@ fi
 
 OPENSTACK_VERSION=`cat ${SOURCE}/openstack_version`
 
+# add EayunStack Fuel Plugins
+mkdir -p /opt/eayunstack
+cp ${SOURCE}/fuel-plugins/*.fp /opt/eayunstack/
+
 # ----------------------
 # UNPACKING REPOSITORIES
 # ----------------------
