@@ -32,11 +32,15 @@ ceph
 ceph-deploy
 ceph-radosgw
 ceph-test
+cirros-testvm
+cirros-testvm-mellanox
+cirros-testvmware
 cloud-init
 cloud-utils
 cobbler
 cobbler-web
 corosync
+crmsh
 cronie
 cronie-anacron
 cronie-noanacron
@@ -128,8 +132,11 @@ gcc-gfortran
 gdisk
 git
 gperftools-libs
+grub2
+grub2-tools
 ipxe-bootimgs
 haproxy
+hexedit
 hdparm
 hiera
 hivex
@@ -149,6 +156,7 @@ libaio
 libcephfs1
 libevent-devel
 fcgi
+libguestfs-tools-c
 libicu
 libmemcached
 libmlx4
@@ -161,6 +169,7 @@ libunwind
 libuser
 libuv
 libuv-devel
+libvirt
 libxml2
 libyaml
 linux-firmware
@@ -393,6 +402,7 @@ python-ordereddict
 python-oslo-config
 python-oslo-config-doc
 python-osnagios
+python-parallax
 python-paramiko
 python-passlib
 python-paste
@@ -421,6 +431,7 @@ python-stevedore
 python-swiftclient
 python-swiftclient-doc
 python-tablib
+python-tasklib
 python-unittest2
 python-urwid
 python-versiontools
