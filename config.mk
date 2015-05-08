@@ -146,15 +146,15 @@ define set_vars
 endef
 
 # Repos and versions
-FUELLIB_COMMIT?=stable/6.0
-NAILGUN_COMMIT?=stable/6.0
-ASTUTE_COMMIT?=stable/6.0
-OSTF_COMMIT?=stable/6.0
+FUELLIB_COMMIT?=centos7
+NAILGUN_COMMIT?=centos7
+ASTUTE_COMMIT?=centos7
+OSTF_COMMIT?=centos7
 
-FUELLIB_REPO?=https://github.com/stackforge/fuel-library.git
-NAILGUN_REPO?=https://github.com/stackforge/fuel-web.git
-ASTUTE_REPO?=https://github.com/stackforge/fuel-astute.git
-OSTF_REPO?=https://github.com/stackforge/fuel-ostf.git
+FUELLIB_REPO?=https://github.com/eayunstack/fuel-library.git
+NAILGUN_REPO?=https://github.com/eayunstack/fuel-web.git
+ASTUTE_REPO?=https://github.com/eayunstack/fuel-astute.git
+OSTF_REPO?=https://github.com/eayunstack/fuel-ostf.git
 
 # Gerrit URLs and commits
 FUELLIB_GERRIT_URL?=https://review.openstack.org/stackforge/fuel-library
