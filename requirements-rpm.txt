@@ -61,6 +61,8 @@ dmidecode
 dnsmasq
 dnsmasq-utils
 dstat
+eayunstack-tools
+eayunstack-dashboard-theme
 ed
 erlang
 erlang-appmon
