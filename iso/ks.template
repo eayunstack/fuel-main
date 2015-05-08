@@ -226,6 +226,7 @@ curl
 daemonize
 dhcp
 docker
+eayunstack-tools
 lxc
 fuelmenu
 gdisk
