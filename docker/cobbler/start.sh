@@ -20,6 +20,13 @@ grep -q '/system.slice/dock' /proc/1/cgroup && sed -i 's/\/docker\//\/system\.sl
 
 # Run puppet to apply custom config
 puppet apply -v /etc/puppet/modules/nailgun/examples/cobbler-only.pp
+
+#Workaround for cobbler to restart dnsmasq inside docker instance
+sed -i 's/service dnsmasq restart/pkill dnsmasq \&\& \/usr\/sbin\/dnsmasq/' /usr/lib/python2.7/site-packages/cobbler/action_sync.py
+sed -i 's/service dnsmasq restart/pkill dnsmasq \&\& \/usr\/sbin\/dnsmasq/' /usr/lib/python2.7/site-packages/cobbler/modules/sync_post_restart_services.py
+rm -f /usr/lib/python2.7/site-packages/cobbler/action_sync.py{c,o}
+rm -f /usr/lib/python2.7/site-packages/cobbler/modules/sync_post_restart_services.py{c,o}
+
 # Stop cobbler and dnsmasq
 pkill dnsmasq
 pkill cobblerd
