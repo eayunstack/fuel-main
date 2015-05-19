@@ -39,7 +39,7 @@ get_bootdev() {
 }
 
 get_alldevs() {
-    ip link|grep -oE 'eth[0-9]+'|sort|uniq
+    ip link|grep -oE 'eth[0-9]+|en[[:alnum:]]+'|sort|uniq
 }
 
 set_interfaces_up_when_booted() {
