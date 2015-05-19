@@ -50,6 +50,10 @@ set_interfaces_up_when_booted() {
     done
 }
 
+echo -n "Waiting for the udev event queue..."
+udevadm settle
+echo "done."
+
 echo -n "Configure all interfaces as active..."
 set_interfaces_up_when_booted
 echo "ok."
