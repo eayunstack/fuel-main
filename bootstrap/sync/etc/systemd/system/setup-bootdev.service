@@ -1,6 +1,7 @@
 [Unit]
 Description=Fuel Setup Network Interface Script
 Before=network.target
+Before=network.service
 
 [Service]
 Type=oneshot
