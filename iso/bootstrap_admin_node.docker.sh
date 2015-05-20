@@ -82,5 +82,38 @@ fi
 rmdir /var/log/remote && ln -s /var/log/docker-logs/remote /var/log/remote
 
 dockerctl check || fail
+
+echo "Waiting for fuel to be ready..."
+fuel_ready=0
+retries=0
+
+until [ $fuel_ready -eq 1 ]
+do
+    retries=$((retries+1))
+    fuel plugins -l >/dev/null 2>&1;
+    fp_ret=$?
+
+    if [ $fp_ret -eq 0 ]; then
+        fuel_ready=1
+    elif [ $retries -gt 18 ]; then
+        break
+    else
+        sleep 10
+    fi
+done
+
+if [ $fuel_ready -eq 1 ]; then
+    echo "Installing EayunStack Fuel Plugins..."
+    for plugin in /opt/eayunstack/*.fp
+    do
+        if [ -f "$plugin" ]; then
+            fuel plugins --install "$plugin"
+        fi
+    done
+else
+    echo "Fuel is not ready in 180 seconds."
+    echo "Skipping EayunStack Fuel Plugins Installation."
+fi
+
 bash /etc/rc.local
 echo "Fuel node deployment complete!"
