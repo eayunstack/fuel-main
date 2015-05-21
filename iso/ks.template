@@ -367,6 +367,9 @@ OPENSTACK_VERSION=`cat ${SOURCE}/openstack_version`
 mkdir -p /opt/eayunstack
 cp ${SOURCE}/fuel-plugins/*.fp /opt/eayunstack/
 
+# add EayunStack node role file
+echo "fuel" > /.node-role
+
 # ----------------------
 # UNPACKING REPOSITORIES
 # ----------------------
