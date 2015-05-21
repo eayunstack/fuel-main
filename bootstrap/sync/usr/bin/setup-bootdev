@@ -39,7 +39,7 @@ get_bootdev() {
 }
 
 get_alldevs() {
-    ip link|grep -oE 'eth[0-9]+'|sort|uniq
+    ip link|grep -oE 'eth[0-9]+|en[[:alnum:]]+'|sort|uniq
 }
 
 set_interfaces_up_when_booted() {
@@ -49,6 +49,10 @@ set_interfaces_up_when_booted() {
         echo -e "$content" > "./ifcfg-$name"
     done
 }
+
+echo -n "Waiting for the udev event queue..."
+udevadm settle
+echo "done."
 
 echo -n "Configure all interfaces as active..."
 set_interfaces_up_when_booted
