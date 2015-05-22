@@ -146,10 +146,10 @@ define set_vars
 endef
 
 # Repos and versions
-FUELLIB_COMMIT?=centos7
-NAILGUN_COMMIT?=centos7
-ASTUTE_COMMIT?=centos7
-OSTF_COMMIT?=centos7
+FUELLIB_COMMIT?=eayunstack-1.0
+NAILGUN_COMMIT?=eayunstack-1.0
+ASTUTE_COMMIT?=eayunstack-1.0
+OSTF_COMMIT?=eayunstack-1.0
 
 FUELLIB_REPO?=https://github.com/eayunstack/fuel-library.git
 NAILGUN_REPO?=https://github.com/eayunstack/fuel-web.git
