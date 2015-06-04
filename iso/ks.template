@@ -370,6 +370,9 @@ cp ${SOURCE}/fuel-plugins/*.fp /opt/eayunstack/
 # add EayunStack node role file
 echo "fuel" > /.node-role
 
+# disable ctrl-alt-del
+systemctl mask ctrl-alt-del.target
+
 # ----------------------
 # UNPACKING REPOSITORIES
 # ----------------------
