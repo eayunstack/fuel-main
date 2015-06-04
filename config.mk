@@ -85,7 +85,12 @@ OPENSTACK_YAML_ART_NAME?=openstack.yaml
 TARGET_UBUNTU_IMG_ART_NAME?=ubuntu_target_images.tar
 TARGET_CENTOS_IMG_ART_NAME?=centos_target_images.tar
 
-
+# EayunStack
+EAYUNSTACK_BUILD?=true
+ifeq ($(EAYUNSTACK_BUILD),true)
+EAYUNSTACK_VERSION:=1.0
+EAYUNSTACK_ISO?=EayunStack-$(EAYUNSTACK_VERSION)
+endif
 
 # Where we put artifacts
 ISO_PATH:=$(ARTS_DIR)/$(ISO_NAME).iso
