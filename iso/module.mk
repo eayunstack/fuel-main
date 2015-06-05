@@ -182,6 +182,10 @@ ifeq ($(PRODUCTION),docker)
 $(BUILD_DIR)/iso/isoroot.done: $(ISOROOT)/docker.done
 endif
 
+ifeq ($(EAYUNSTACK_BUILD),true)
+$(BUILD_DIR)/iso/isoroot.done: $(BUILD_DIR)/iso/isoroot-fuel-plugins.done
+endif
+
 ########################
 # BOOTSTRAP
 ########################
