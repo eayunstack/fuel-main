@@ -232,6 +232,12 @@ ISO_VOLUME_ID:="OpenStack Fuel"
 ISO_VOLUME_PREP:="Fuel team"
 endif
 
+# EayunStack
+ifeq ($(EAYUNSTACK_BUILD),true)
+ISO_VOLUME_ID:="EayunStack"
+ISO_VOLUME_PREP:="Eayun Inc."
+endif
+
 # keep in mind that mkisofs touches some files inside directory
 # from which it builds iso image
 # that is why we need to make isoroot.done dependent on some files
@@ -251,6 +257,9 @@ $(ISO_PATH): $(BUILD_DIR)/iso/isoroot.done
 		-boot-load-size 4 -boot-info-table \
 		-x "lost+found" -o $@ $(BUILD_DIR)/iso/isoroot-mkisofs
 	implantisomd5 $@
+ifeq ($(EAYUNSTACK_BUILD),true)
+	mv $@ $(ARTS_DIR)/$(EAYUNSTACK_ISO)-`date '+%Y%m%d%H%M'`.iso
+endif
 
 # IMGSIZE is calculated as a sum of iso size plus
 # installation images directory size (~165M) and syslinux directory size (~35M)
