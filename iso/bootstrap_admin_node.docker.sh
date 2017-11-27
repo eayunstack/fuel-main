@@ -83,6 +83,26 @@ rmdir /var/log/remote && ln -s /var/log/docker-logs/remote /var/log/remote
 
 dockerctl check || fail
 
+IMAGE_NAME='eayundeploy'
+IMAGE_VERSION='latest'
+# load eayundeploy docker image
+docker load -i /usr/share/eayundeploy/eayundeploy-image.tar
+if [ $? != 0 ];then
+  echo "eayundeploy docker image load failed."
+  fail
+fi
+
+# remove old container
+if docker ps -a | grep -q eayundeploy;then
+  docker rm -f eayundeploy
+fi
+# start eayundeploy container
+docker run -d -p 9000:8000 --restart="always" -v /etc/fuel/:/etc/fuel/ -v /var/log/eayundeploy/:/var/log/eayundeploy/ --name eayundeploy $IMAGE_NAME:$IMAGE_VERSION
+if [ $? != 0 ];then
+  echo "eayundeploy container start failed."
+  fail
+fi
+
 echo "Waiting for fuel to be ready..."
 fuel_ready=0
 retries=0
